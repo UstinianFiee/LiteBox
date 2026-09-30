@@ -1,0 +1,312 @@
+/* Shared interaction layer: blue underline, short purposeful motion, no runtime. */
+:root {
+  --motion-fast: 150ms;
+  --motion-normal: 240ms;
+  --motion-enter: 320ms;
+  --motion-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Keep editor/terminal geometry and native non-text controls untouched. */
+:where(.app-shell, .modal)
+  input:not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="range"],
+    [type="file"],
+    [type="color"],
+    [type="button"],
+    [type="submit"],
+    [type="hidden"]
+  ),
+:where(.app-shell, .modal)
+  textarea:not(.code-input, .markdown-input, .xterm-helper-textarea),
+:where(.app-shell, .modal) .select-trigger {
+  border: 0;
+  border-bottom: 1px solid var(--border-strong);
+  border-radius: 5px 5px 0 0;
+  background-color: var(--surface);
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 0% 3px;
+  box-shadow: none;
+  transition:
+    background-size var(--motion-normal) var(--motion-ease),
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
+}
+:where(.app-shell, .modal)
+  input:not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="range"],
+    [type="file"],
+    [type="color"],
+    [type="button"],
+    [type="submit"],
+    [type="hidden"]
+  ):focus,
+:where(.app-shell, .modal)
+  textarea:not(.code-input, .markdown-input, .xterm-helper-textarea):focus,
+:where(.app-shell, .modal) .select-trigger:focus-visible,
+:where(.app-shell, .modal) .app-select.is-open .select-trigger {
+  outline: none;
+  border-bottom-color: var(--accent);
+  background-size: 100% 3px;
+  box-shadow: none;
+}
+:where(.app-shell, .modal) input:disabled,
+:where(.app-shell, .modal) textarea:disabled {
+  background-image: none;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+:where(.app-shell, .modal) input[aria-invalid="true"],
+:where(.app-shell, .modal) textarea[aria-invalid="true"] {
+  border-bottom-color: var(--error);
+  background-image: linear-gradient(var(--error), var(--error));
+}
+
+/* Composite searches draw one line for icon + field, not two competing lines. */
+:is(
+  .search-wrap,
+  .asset-search,
+  .inline-search,
+  .filename-input,
+  .chat-history-search
+) {
+  position: relative;
+  border: 0;
+  border-bottom: 1px solid var(--border-strong);
+  border-radius: 5px 5px 0 0;
+  transition: border-color var(--motion-fast) ease;
+}
+:is(
+  .search-wrap,
+  .asset-search,
+  .inline-search,
+  .filename-input,
+  .chat-history-search
+)::after,
+.chat-redesign .chat-composer::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+:is(
+    .search-wrap,
+    .asset-search,
+    .inline-search,
+    .filename-input,
+    .chat-history-search
+  ):focus-within::after,
+.chat-redesign .chat-composer:focus-within::after {
+  transform: scaleX(1);
+}
+:is(
+  .search-wrap,
+  .asset-search,
+  .inline-search,
+  .filename-input,
+  .chat-history-search
+):focus-within {
+  border-bottom-color: var(--accent);
+}
+.app-shell
+  :is(
+    .search-wrap,
+    .asset-search,
+    .inline-search,
+    .filename-input,
+    .chat-history-search
+  )
+  input,
+.app-shell
+  :is(
+    .search-wrap,
+    .asset-search,
+    .inline-search,
+    .filename-input,
+    .chat-history-search
+  )
+  input:focus,
+.app-shell .chat-redesign .chat-composer textarea,
+.app-shell .chat-redesign .chat-composer textarea:focus {
+  border: 0;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+.chat-redesign .chat-composer {
+  position: relative;
+  border: 0;
+  border-bottom: 1px solid var(--border-strong);
+  border-radius: 12px 12px 0 0;
+  background: var(--subtle);
+  box-shadow: none;
+}
+.chat-redesign .chat-composer:focus-within {
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+/* Page entry fades only: transformed ancestors break fixed dashboards/overlays. */
+main > .page {
+  animation: ui-fade-in var(--motion-enter) ease-out;
+}
+.page-heading {
+  animation: ui-rise-in var(--motion-enter) var(--motion-ease);
+}
+.tool-grid > .tool-card {
+  animation: ui-fade-in var(--motion-enter) ease-out backwards;
+}
+.tool-grid > .tool-card:nth-child(3n + 2) {
+  animation-delay: 45ms;
+}
+.tool-grid > .tool-card:nth-child(3n) {
+  animation-delay: 90ms;
+}
+
+:is(
+  .button,
+  .icon-button,
+  .text-button,
+  .nav-link,
+  .chat-session,
+  .select-option,
+  .mode-chips button,
+  .chat-send-button
+) {
+  transition:
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease,
+    transform var(--motion-fast) var(--motion-ease);
+}
+:is(.button, .icon-button, .chat-send-button):active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+}
+.nav-link {
+  position: relative;
+}
+.nav-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 25%;
+  width: 3px;
+  height: 50%;
+  border-radius: 3px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.nav-link.active::before {
+  transform: scaleY(1);
+}
+.select-trigger svg {
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.app-select.is-open .select-trigger svg {
+  transform: rotate(180deg);
+}
+.select-menu:popover-open,
+.search-results {
+  animation: ui-rise-in 180ms var(--motion-ease);
+}
+.modal[open] {
+  animation: ui-dialog-in var(--motion-normal) var(--motion-ease);
+}
+.modal[open]::backdrop {
+  animation: ui-fade-in 180ms ease-out;
+}
+.chat-history-actions,
+.chat-rename-form {
+  animation: ui-fade-in 180ms ease-out;
+}
+/* Don't animate message contents: streaming updates must remain still/readable. */
+@media (hover: hover) and (pointer: fine) {
+  .tool-card:hover,
+  .tool-card:focus-within {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  .button:hover:not(:disabled),
+  .chat-send-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  .button:active:not(:disabled),
+  .chat-send-button:active:not(:disabled) {
+    transform: translateY(1px) scale(0.98);
+  }
+}
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ui-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes ui-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* Respect OS accessibility settings; focus remains visible without animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .tool-card:hover,
+  .tool-card:focus-within,
+  :is(.button, .icon-button, .chat-send-button):is(:hover, :active) {
+    transform: none !important;
+  }
+}
+@media (forced-colors: active) {
+  input:focus-visible,
+  textarea:focus-visible,
+  .select-trigger:focus-visible,
+  .app-select.is-open .select-trigger,
+  :is(
+    .search-wrap,
+    .asset-search,
+    .inline-search,
+    .filename-input,
+    .chat-history-search,
+    .chat-composer
+  ):focus-within {
+    outline: 2px solid Highlight !important;
+    outline-offset: 2px;
+  }
+}

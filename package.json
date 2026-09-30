@@ -1,0 +1,96 @@
+{
+  "name": "litebox",
+  "version": "1.0.0",
+  "description": "LiteBox · 轻匣 — a local-first personal desktop toolbox",
+  "author": "LiteBox",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "npm run typecheck && vite build",
+    "start": "electron .",
+    "test": "vitest run",
+    "test:backend": "node --test tests/backend.test.cjs tests/database.test.cjs tests/experience.test.cjs tests/confirmation.test.cjs tests/upgrade.test.cjs",
+    "test:desktop": "node scripts/smoke-desktop.mjs",
+    "licenses": "node scripts/licenses.mjs",
+    "pack": "npm run build && npm run licenses && electron-builder --win dir --x64 --config.electronDist=node_modules/electron/dist",
+    "dist": "npm run build && npm run licenses && electron-builder --win portable zip --x64 --config.electronDist=node_modules/electron/dist"
+  },
+  "dependencies": {
+    "mongodb": "^7.6.0",
+    "mysql2": "^3.24.4",
+    "oracledb": "^7.0.1",
+    "pg": "^8.23.0",
+    "pg-cursor": "^2.22.0",
+    "redis": "^6.2.1",
+    "ssh2": "^1.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/papaparse": "^5.3.16",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
+    "dompurify": "^3.4.16",
+    "echarts": "^6.0.0",
+    "electron": "44.4.5",
+    "electron-builder": "26.16.1",
+    "lossless-json": "^4.2.0",
+    "lucide-vue-next": "^0.468.0",
+    "marked": "^18.0.14",
+    "papaparse": "^5.5.3",
+    "prettier": "^3.9.9",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.0",
+    "vue": "^3.5.43",
+    "vue-tsc": "^3.1.0",
+    "yaml": "^2.8.1"
+  },
+  "build": {
+    "appId": "local.litebox.toolbox",
+    "productName": "LiteBox",
+    "asar": true,
+    "npmRebuild": false,
+    "directories": {
+      "output": "release/v1.0.0",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json",
+      "THIRD_PARTY_NOTICES.md",
+      "LICENSE",
+      "build/icon.ico"
+    ],
+    "extraFiles": [
+      {
+        "from": "docs/PORTABLE-README.txt",
+        "to": "使用说明.txt"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable",
+        "zip"
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "LiteBox-${version}-${arch}.${ext}",
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "LiteBox-${version}-portable.exe",
+      "useZip": true
+    },
+    "electronLanguages": [
+      "en-US",
+      "zh-CN"
+    ],
+    "compression": "normal"
+  }
+}

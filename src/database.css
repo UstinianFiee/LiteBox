@@ -1,0 +1,442 @@
+.database-layout {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 12px;
+  min-height: 670px;
+}
+.db-explorer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.db-tree {
+  flex: 1;
+  overflow: auto;
+  max-height: 65vh;
+}
+.db-profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: calc(100% - 16px);
+  margin: 3px 8px;
+  border: 0;
+  background: none;
+  padding: 12px 9px;
+  border-radius: 6px;
+  text-align: left;
+}
+.db-profile > span:first-of-type {
+  min-width: 0;
+  flex: 1;
+}
+.db-profile strong,
+.db-profile small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.db-profile strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.db-profile small {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.db-profile.active,
+.db-table.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.db-objects {
+  border-top: 1px solid var(--border);
+  margin: 12px 10px;
+  padding-top: 5px;
+}
+.db-tree-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.db-objects summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  cursor: pointer;
+  padding: 8px 4px;
+  overflow-wrap: anywhere;
+}
+.db-objects summary:before {
+  content: "⌄";
+}
+.db-objects details:not([open]) summary:before {
+  content: "›";
+}
+.db-table {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px 10px 24px;
+  border: 0;
+  background: none;
+  text-align: left;
+  border-radius: 5px;
+}
+.db-table span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-table small {
+  margin-left: auto;
+}
+.db-workspace {
+  min-width: 0;
+  overflow: hidden;
+}
+.db-context,
+.db-connected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.db-context > div:first-child {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.db-state {
+  font-size: 0.8125rem;
+  padding: 3px 8px;
+  background: var(--subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--muted);
+}
+.db-auth {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--subtle);
+  border-bottom: 1px solid var(--border);
+}
+.db-auth label {
+  flex: 1;
+  max-width: 280px;
+}
+.db-auth > .hint {
+  flex: 1;
+  min-width: 100px;
+  align-self: center;
+  overflow-wrap: anywhere;
+}
+.db-connected > .hint {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.db-query-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 4px;
+}
+.db-query-heading h2 {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 1rem;
+  margin: 0;
+}
+.db-query-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+}
+.db-sql {
+  width: 100%;
+  height: 210px;
+  min-height: 130px;
+  max-height: 650px;
+  resize: vertical;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  line-height: 1.8;
+  padding: 18px 20px;
+}
+.db-result-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--subtle);
+}
+.db-grid {
+  overflow: auto;
+  max-height: 460px;
+  min-height: 260px;
+}
+.db-grid table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.9375rem;
+}
+.db-grid td,
+.db-grid th {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 10px 14px;
+  white-space: pre;
+  max-width: 450px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.db-grid thead th {
+  position: sticky;
+  top: 0;
+  background: var(--subtle);
+  z-index: 1;
+}
+.db-grid th:first-child {
+  width: 48px;
+  color: var(--muted);
+}
+.db-grid tr:nth-child(even) td {
+  background: var(--subtle);
+}
+.db-grid tr:hover td {
+  background: var(--accent-soft);
+}
+.db-null {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.db-grid-empty {
+  min-height: 260px;
+  padding: 25px;
+}
+.db-grid-empty h3 {
+  font-size: 1rem;
+}
+.db-grid-empty p {
+  font-size: 0.875rem;
+}
+.db-result-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.db-result-status strong {
+  font-weight: 500;
+  color: var(--accent);
+}
+.db-modal .db-checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+.db-checkbox input {
+  width: 18px;
+  height: 18px;
+}
+.db-demo {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.db-demo svg,
+.db-profile svg,
+.db-table svg {
+  flex-shrink: 0;
+}
+@media (max-width: 1100px) {
+  .database-layout {
+    grid-template-columns: 225px minmax(0, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .database-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .db-explorer {
+    max-height: 350px;
+  }
+  .db-tree {
+    min-height: 100px;
+  }
+  .db-auth label {
+    max-width: none;
+  }
+}
+@media (max-width: 480px) {
+  .db-query-toolbar .button {
+    width: 100%;
+  }
+  .db-context,
+  .db-auth {
+    padding: 12px;
+  }
+  .db-auth label {
+    flex-basis: 100%;
+  }
+  .db-grid td,
+  .db-grid th {
+    padding: 9px;
+  }
+}
+@media (min-width: 801px) and (max-height: 820px) {
+  .db-sql {
+    height: 145px;
+  }
+  .db-grid {
+    min-height: 190px;
+  }
+}
+/* Shared database dialogs: readable, calm surfaces in both themes. */
+.db-modal {
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100dvh - 40px);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 24px 80px #0004;
+}
+.db-modal::backdrop {
+  background: #08132280;
+}
+.db-modal > form {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 44px);
+}
+.db-modal .panel-heading {
+  padding: 22px 26px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.db-modal .modal-body {
+  padding: 24px 26px;
+  overflow-y: auto;
+  min-height: 0;
+  gap: 20px;
+}
+.db-modal .modal-footer {
+  padding: 18px 26px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.db-modal label {
+  font-size: 15px;
+  gap: 9px;
+}
+.db-modal input:not([type="checkbox"]),
+.db-modal textarea {
+  font-size: 16px;
+}
+.db-dialog-eyebrow {
+  color: var(--accent);
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+}
+.db-modal .hint {
+  line-height: 1.7;
+  margin: 0;
+}
+.db-modal .db-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.db-modal .db-checkbox input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.db-mutation-input {
+  min-height: 160px;
+}
+.db-import-preview {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  min-width: 0;
+}
+.db-import-preview pre {
+  overflow: auto;
+  max-height: 170px;
+  font-size: 13px;
+}
+.db-secret-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.db-export-actions {
+  flex-wrap: wrap;
+}
+.db-export-actions .app-select {
+  min-width: 100px;
+}
+.db-result-toolbar {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.db-command-hint {
+  padding: 0 16px;
+  line-height: 1.6;
+}
+@media (max-width: 600px) {
+  .db-modal .two-columns {
+    grid-template-columns: 1fr;
+  }
+  .db-modal .span-two {
+    grid-column: auto;
+  }
+  .db-modal .modal-body,
+  .db-modal .panel-heading,
+  .db-modal .modal-footer {
+    padding: 16px;
+  }
+}

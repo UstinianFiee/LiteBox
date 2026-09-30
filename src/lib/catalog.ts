@@ -1,0 +1,152 @@
+import { computed } from "vue";
+import {
+  Home,
+  Image,
+  History,
+  ListFilter,
+  Braces,
+  FileText,
+  Monitor,
+  Sparkles,
+  ChartNoAxesCombined,
+  Bookmark,
+  Settings,
+  Database,
+} from "lucide-vue-next";
+import { t } from "./store";
+export const pages = computed(() => [
+  {
+    id: "home",
+    title: t("工作台", "Overview"),
+    description: t("所有日常，轻装上阵", "Your everyday essentials"),
+    icon: Home,
+    category: "main",
+    color: "green",
+  },
+  {
+    id: "orders",
+    title: t("文本整理", "Text tidy"),
+    description: t(
+      "分隔、分组、去重，一次处理好",
+      "Split, group and clean identifiers",
+    ),
+    icon: ListFilter,
+    category: "tools",
+    color: "green",
+  },
+  {
+    id: "sql",
+    title: t("SQL 处理", "SQL builder"),
+    description: t(
+      "把多行单号填入 SQL 的 IN 条件",
+      "Turn a list of IDs into a SQL IN clause",
+    ),
+    icon: Database,
+    category: "tools",
+    color: "blue",
+  },
+  {
+    id: "convert",
+    title: t("格式转换", "Converters"),
+    description: t(
+      "JSON、编码与时间戳的随手工具",
+      "JSON, encoding and timestamps",
+    ),
+    icon: Braces,
+    category: "tools",
+    color: "blue",
+  },
+  {
+    id: "images",
+    title: t("图片工坊", "Image studio"),
+    description: t(
+      "轻一点，更出色 · 压缩、转格式与尺寸调整",
+      "Compress, convert and resize, locally",
+    ),
+    icon: Image,
+    category: "tools",
+    color: "blue",
+  },
+  {
+    id: "markdown",
+    title: t("Markdown 文档", "Markdown studio"),
+    description: t("写下想法，也整理好知识", "A quiet space for your notes"),
+    icon: FileText,
+    category: "tools",
+    color: "amber",
+  },
+  {
+    id: "remote",
+    title: t("远程连接", "Remote connections"),
+    description: t(
+      "SSH、SFTP 与 Windows 远程桌面",
+      "SSH, SFTP and Windows Remote Desktop",
+    ),
+    icon: Monitor,
+    category: "workspace",
+    color: "blue",
+  },
+  {
+    id: "database",
+    title: t("数据库连接", "Databases"),
+    description: t(
+      "浏览库表、编写 SQL、查看查询结果",
+      "Browse tables, write SQL and inspect results",
+    ),
+    icon: Database,
+    category: "workspace",
+    color: "blue",
+  },
+  {
+    id: "chat",
+    title: t("AI 助手", "AI assistant"),
+    description: t(
+      "分析报错，解答日常问题",
+      "Debug an error. Explore an idea.",
+    ),
+    icon: Sparkles,
+    category: "workspace",
+    color: "green",
+  },
+  {
+    id: "dashboard",
+    title: t("数据看板", "Data dashboard"),
+    description: t(
+      "查看真实操作趋势与使用记录",
+      "Your real activity, at a glance",
+    ),
+    icon: ChartNoAxesCombined,
+    category: "workspace",
+    color: "amber",
+  },
+  {
+    id: "snippets",
+    title: t("常用片段", "Snippet library"),
+    description: t(
+      "值得留下的命令、SQL 和文字",
+      "Keep useful commands, SQL and text",
+    ),
+    icon: Bookmark,
+    category: "tools",
+    color: "rose",
+  },
+  {
+    id: "history",
+    title: t("历史日志", "Activity history"),
+    description: t(
+      "本机使用记录与操作结果",
+      "Local usage and operation outcomes",
+    ),
+    icon: History,
+    category: "workspace",
+    color: "blue",
+  },
+  {
+    id: "settings",
+    title: t("设置", "Settings"),
+    description: t("让轻匣符合你的习惯", "Make LiteBox feel like yours"),
+    icon: Settings,
+    category: "system",
+    color: "neutral",
+  },
+]);

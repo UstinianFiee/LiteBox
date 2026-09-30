@@ -1,0 +1,221 @@
+.welcome-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 28px;
+  background: var(--banner);
+  border: 1px solid var(--banner-border);
+  border-radius: 10px;
+}
+.welcome-content h2 {
+  font-size: 1.375rem;
+  line-height: 1.5;
+}
+.welcome-content p {
+  margin-top: 8px;
+  font-size: 0.9375rem;
+  color: var(--secondary);
+}
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.tool-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px 14px;
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    transform 0.17s,
+    border-color 0.17s,
+    box-shadow 0.17s;
+}
+.tool-card:hover {
+  border-color: var(--border-strong);
+
+  box-shadow: 0 4px 12px #17213305;
+}
+.tool-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+.tool-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+.tool-icon.green {
+  background: var(--green-bg);
+  color: var(--green);
+}
+.tool-icon.blue {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.tool-icon.amber {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+.tool-icon.rose {
+  background: var(--rose-bg);
+  color: var(--rose);
+}
+.favorite-button {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  color: var(--border-strong);
+  border-radius: 4px;
+}
+.favorite-button:hover {
+  background: var(--hover);
+}
+.favorite-button.selected {
+  color: var(--amber);
+}
+.favorite-button.selected svg {
+  fill: var(--amber-bg);
+}
+.card-title-button {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-weight: 650;
+  font-size: 1rem;
+  text-align: left;
+}
+.tool-card p {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-top: 5px;
+  min-height: 18px;
+}
+.tool-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 13px;
+  margin-top: 19px;
+  color: var(--muted);
+}
+.tool-card-bottom span {
+  font-size: 0.75rem;
+  letter-spacing: 1.1px;
+}
+.home-bottom {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 17px;
+  margin-top: 24px;
+}
+.recent-panel {
+  padding: 20px;
+}
+.recent-panel .section-heading {
+  margin: 0 0 13px;
+}
+.empty-inline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 20px 0;
+}
+.empty-inline strong {
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+.empty-inline p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.empty-inline .icon-button {
+  margin-left: auto;
+}
+.empty-symbol {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+.empty-symbol.large {
+  width: 76px;
+  height: 76px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--banner-border);
+  border-radius: 17px;
+}
+.recent-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.recent-row:last-child {
+  border-bottom: 0;
+}
+.recent-row svg {
+  color: var(--muted);
+}
+.recent-row small {
+  margin-left: auto;
+  color: var(--muted);
+}
+.local-panel {
+  position: relative;
+  padding: 23px 23px 18px;
+}
+.local-panel h3 {
+  font-size: 1rem;
+}
+.local-panel > p {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 7px;
+  line-height: 1.9;
+  max-width: 85%;
+}
+.local-panel-icon {
+  position: absolute;
+  right: 21px;
+  top: 20px;
+  color: var(--accent);
+}
+.local-panel > div:last-child {
+  display: flex;
+  gap: 25px;
+  margin-top: 14px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.local-panel > div:last-child strong {
+  font-size: 1rem;
+  color: var(--text);
+  margin-left: 9px;
+  font-weight: 500;
+}

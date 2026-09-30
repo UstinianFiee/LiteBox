@@ -1,0 +1,291 @@
+/* Shared connection workbenches: readable assets + large working area. */
+.connection-workbench {
+  max-width: none;
+  padding: 22px 24px 28px;
+}
+.workbench-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.workbench-heading h1 {
+  font-size: 1.65rem;
+  margin: 0 0 4px;
+}
+.workbench-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+.connection-workbench .notice-banner {
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+.connection-workbench .remote-layout {
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 12px;
+}
+.connection-workbench .remote-layout.profiles-hidden {
+  grid-template-columns: minmax(0, 1fr);
+}
+.connection-workbench .server-sidebar {
+  min-height: 620px;
+  overflow: hidden;
+}
+.asset-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin: 12px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+}
+.asset-search input {
+  border: 0;
+  background: transparent;
+  min-width: 0;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 0.9375rem;
+}
+.asset-tree {
+  overflow: auto;
+  flex: 1;
+  max-height: 65vh;
+  padding: 0 4px;
+}
+.asset-tree summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 10px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.asset-tree summary:before {
+  content: "⌄";
+  color: var(--muted);
+}
+.asset-tree details:not([open]) summary:before {
+  content: "›";
+}
+.asset-tree summary small {
+  margin-left: auto;
+  color: var(--muted);
+}
+.asset-tree .server-item {
+  width: calc(100% - 12px);
+  margin: 2px 6px;
+  min-height: 62px;
+}
+.asset-tree .server-item strong {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.connection-workbench .sidebar-hint {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+  margin-bottom: 0;
+  font-size: 0.8125rem;
+}
+.connection-workbench .remote-main {
+  overflow: hidden;
+}
+.session-tabs {
+  display: flex;
+  align-items: stretch;
+  min-height: 52px;
+  border-bottom: 1px solid var(--border);
+  background: var(--subtle);
+  overflow-x: auto;
+}
+.session-tabs > .muted {
+  padding: 14px 18px;
+}
+.session-tab {
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--border);
+  border-bottom: 3px solid transparent;
+  flex-shrink: 0;
+}
+.session-tab.active {
+  background: var(--surface);
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+.session-tab > button[role="tab"] {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px;
+  border: 0;
+  background: none;
+  min-height: 48px;
+}
+.session-tab > button[role="tab"] > span:first-of-type {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.session-tab .icon-button {
+  width: 36px;
+  height: 40px;
+  min-width: 36px;
+}
+.remote-session {
+  min-width: 0;
+  container-type: inline-size;
+}
+.remote-session .connection-panel {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.remote-session .connection-panel .panel-heading {
+  padding: 12px 16px;
+}
+.remote-session .connection-form {
+  padding: 12px 16px;
+  gap: 12px;
+}
+.remote-session .connected-toolbar {
+  padding: 8px 16px;
+}
+.remote-session .remote-workspace-toolbar {
+  padding: 8px 14px;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+.remote-session .ssh-workspace {
+  margin: 0;
+  gap: 0;
+}
+.remote-session .ssh-workspace.split {
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+.remote-session .terminal-panel {
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+}
+.remote-session .terminal-title {
+  background: var(--subtle);
+  border-color: var(--border);
+  color: var(--muted);
+  height: 40px;
+}
+.remote-session .terminal-container {
+  height: clamp(410px, calc(100vh - 360px), 820px);
+  min-width: 0;
+}
+.remote-session .terminal-placeholder {
+  color: var(--muted);
+  font-size: 1rem;
+  padding: 12px;
+}
+.remote-session .sftp-panel {
+  border: 0;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
+  min-width: 0;
+}
+.remote-session .sftp-panel h2 {
+  font-size: 1rem;
+}
+.remote-session .path-bar input {
+  font-size: 0.9375rem;
+}
+.remote-session .sftp-files {
+  height: clamp(300px, calc(100vh - 500px), 650px);
+  min-height: 260px;
+}
+.remote-session .file-row > button:first-child {
+  font-size: 0.9375rem;
+  min-height: 44px;
+}
+.file-size {
+  white-space: nowrap;
+  padding-right: 7px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+.file-list-heading {
+  display: flex;
+  justify-content: space-between;
+  background: var(--subtle);
+  padding: 8px 14px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  border-block: 1px solid var(--border);
+}
+@container (max-width: 710px) {
+  .remote-session .ssh-workspace.split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .remote-session .ssh-workspace.split .sftp-panel {
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+}
+@media (max-width: 1100px) {
+  .connection-workbench {
+    padding: 18px;
+  }
+  .connection-workbench .remote-layout {
+    grid-template-columns: 215px minmax(0, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .connection-workbench .remote-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .connection-workbench .server-sidebar {
+    min-height: 0;
+    max-height: 300px;
+  }
+  .asset-tree {
+    max-height: 210px;
+  }
+  .connection-workbench .sidebar-hint {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .connection-workbench {
+    padding: 12px;
+  }
+  .workbench-heading .toolbar {
+    width: 100%;
+  }
+  .remote-session .connection-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .remote-session .connected-toolbar {
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+@media (min-width: 801px) and (max-height: 820px) {
+  .workbench-heading p {
+    display: none;
+  }
+  .workbench-heading {
+    margin-bottom: 12px;
+  }
+  .connection-workbench .notice-banner {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+  }
+}

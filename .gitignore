@@ -1,0 +1,25 @@
+node_modules/
+dist/
+release/
+.litebox-data/
+litebox-data/
+test-results/
+*.log
+.env*
+!.env.example
+
+artifacts/
+audit-*.json
+
+# Local credentials and databases (do not commit real fixtures)
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm

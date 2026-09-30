@@ -1,0 +1,150 @@
+/* Fill the available app viewport; terminal/assets/files scroll independently. */
+main.remote-viewport {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  scrollbar-gutter: auto;
+}
+.app-shell main.remote-viewport > .remote-page.connection-workbench {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 20px 24px 24px;
+  overflow: hidden;
+}
+.remote-page.connection-workbench > .workbench-heading,
+.remote-page.connection-workbench > .notice-banner {
+  flex-shrink: 0;
+}
+.remote-page.connection-workbench .remote-layout {
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.remote-page.connection-workbench .server-sidebar {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+}
+.remote-page.connection-workbench .server-sidebar > .panel-heading,
+.remote-page.connection-workbench .asset-search,
+.remote-page.connection-workbench .sidebar-hint {
+  flex-shrink: 0;
+}
+.remote-page.connection-workbench .asset-tree {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+}
+.remote-page.connection-workbench .remote-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.remote-page.connection-workbench .session-tabs {
+  flex-shrink: 0;
+}
+.remote-page.connection-workbench .remote-main > [role="tabpanel"] {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.remote-page.connection-workbench .remote-empty {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.remote-page.connection-workbench .remote-session {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+.remote-page.connection-workbench .remote-session > .connection-panel,
+.remote-page.connection-workbench .remote-session > .error-banner,
+.remote-page.connection-workbench .remote-workspace-toolbar {
+  flex-shrink: 0;
+}
+.remote-page.connection-workbench .ssh-workspace {
+  flex: 1;
+  min-height: 180px;
+}
+.remote-page.connection-workbench .terminal-panel,
+.remote-page.connection-workbench .sftp-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.remote-page.connection-workbench .terminal-title,
+.remote-page.connection-workbench .sftp-panel > :not(.sftp-files) {
+  flex-shrink: 0;
+}
+.remote-page.connection-workbench .terminal-container {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+}
+/* FitAddon subtracts the xterm element's padding, not its parent's. */
+.remote-page.connection-workbench .terminal-container > .xterm {
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.remote-page.connection-workbench .sftp-files {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  overflow: auto;
+}
+@media (max-width: 800px) {
+  .app-shell main.remote-viewport > .remote-page.connection-workbench {
+    padding: 14px;
+  }
+  .remote-page.connection-workbench .remote-layout {
+    grid-template-rows: minmax(130px, 28%) minmax(0, 1fr);
+  }
+  .remote-page.connection-workbench .remote-layout.profiles-hidden {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .remote-page.connection-workbench .server-sidebar {
+    max-height: none;
+  }
+}
+@media (max-height: 700px) {
+  .app-shell main.remote-viewport > .remote-page.connection-workbench {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .remote-page.connection-workbench .connection-form {
+    padding-block: 8px;
+  }
+  .remote-page.connection-workbench .server-sidebar .sidebar-hint {
+    max-height: 100px;
+    overflow: auto;
+  }
+}
+/* Small windows keep all file controls reachable through the workspace scroller. */
+.remote-page.connection-workbench .sftp-panel {
+  min-height: 260px;
+}
+.remote-page.connection-workbench .ssh-workspace.split {
+  min-height: 260px;
+}
+@container (max-width: 710px) {
+  .remote-page.connection-workbench .ssh-workspace.split {
+    grid-template-rows: minmax(180px, 1fr) minmax(260px, 1fr);
+    min-height: 440px;
+  }
+}
