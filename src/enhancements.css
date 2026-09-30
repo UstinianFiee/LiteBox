@@ -25,7 +25,10 @@
 .home-bottom {
   align-items: stretch;
 }
+/* Keep visually hidden paging text inside its own scroll container. Without
+   a containing block it can enlarge the document below the app status bar. */
 .pagination-bar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -112,6 +115,8 @@
 }
 .pagination-bar.is-compact .pagination-summary {
   position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: 1px;
   height: 1px;
   padding: 0;
@@ -208,18 +213,30 @@
   max-height: none;
   min-height: 180px;
 }
+/* Wide result sets scroll inside the grid instead of squeezing every column
+   into the workspace. Cell content can wrap, but columns must remain readable. */
 .database-page .db-grid td,
 .database-page .db-grid th {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  min-width: 110px;
-  max-width: none;
+  min-width: 144px;
+  max-width: 480px;
+  vertical-align: top;
   overflow: visible;
   text-overflow: clip;
 }
 .database-page .db-grid table {
-  table-layout: fixed;
+  table-layout: auto;
+  width: max-content;
   min-width: 100%;
+}
+.database-page .db-grid th:first-child {
+  width: 64px;
+  min-width: 64px;
+  white-space: nowrap;
+}
+.database-page .db-grid thead th {
+  white-space: nowrap;
 }
 .database-page .db-table span,
 .database-page .db-profile strong,

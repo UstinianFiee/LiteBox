@@ -6,6 +6,10 @@ All notable changes to LiteBox are documented here.
 
 ### Fixed
 
+- Anchor compact pagination accessibility text to its own footer instead of the document, preventing a second page scrollbar and blank space below the app status bar. Preserve internal scrolling, keyboard navigation, and screen-reader announcements.
+
+- Keep wide database query results readable with intrinsic table sizing and horizontal scrolling, instead of squeezing all fields into the workspace. Preserve complete cell values, row numbering, paging, and sticky headers in query and schema views.
+- Add a shared production result table, a browser regression fixture, and a real-SQL desktop check for 120-column results across multiple widths.
 - Await Electron 44 asynchronous clipboard reads before validating plain text, and await writes before reporting success. Ordinary terminal text is no longer rejected as a Promise; native read/write failures propagate through IPC.
 - Cover delayed native reads/writes, asynchronous failures and terminal selection copy/paste with Promise-based test fixtures. Database copy checks use an isolated in-memory clipboard.
 - Source fix only: existing 1.0.0 R3 EXE/ZIP files do not contain this asynchronous clipboard fix and remain unchanged.

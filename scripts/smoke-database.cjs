@@ -105,6 +105,80 @@ exports.run = async ({
       },
     );
     await check(
+      "wide database results keep readable columns and horizontal scrolling",
+      async () => {
+        const originalSize = win.getContentSize();
+        const originalSql = await js("document.querySelector('.db-sql').value");
+        const sql =
+          "SELECT " +
+          Array.from({ length: 120 }, (_, i) =>
+            i === 0
+              ? "order_no AS order_number"
+              : i === 1
+                ? "'2026-09-30 09:30:00' AS created_at"
+                : i === 2
+                  ? "NULL AS optional_value"
+                  : `0 AS field_${i + 1}`,
+          ).join(", ") +
+          " FROM orders ORDER BY order_no";
+        const setSql = async (value) => {
+          await js(
+            `(()=>{const e=document.querySelector('.db-sql');e.value=${JSON.stringify(value)};e.dispatchEvent(new Event('input',{bubbles:true}));})()`,
+          );
+          await click("运行查询");
+        };
+        const frame = () =>
+          js(
+            "new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))",
+          );
+        try {
+          await setSql(sql);
+          await wait(
+            "document.querySelectorAll('.db-grid thead th').length === 121",
+          );
+          for (const [width, height] of [
+            [1440, 960],
+            [980, 740],
+            [820, 680],
+          ]) {
+            win.setContentSize(width, height);
+            await frame();
+            const metrics = await js(`(()=>{
+              const g=document.querySelector('.db-grid'), row=g.querySelector('tbody tr');
+              const cells=[...row.querySelectorAll('td')];
+              g.scrollLeft=g.scrollWidth;
+              return {minWidth:Math.min(...cells.map(c=>c.getBoundingClientRect().width)),
+                rowHeight:row.getBoundingClientRect().height, gridWidth:g.clientWidth, scrollWidth:g.scrollWidth,
+                tableLayout:getComputedStyle(g.querySelector('table')).tableLayout,
+                lastColumnVisible:cells.at(-1).getBoundingClientRect().right<=g.getBoundingClientRect().right+2,
+                firstValue:cells[0].textContent, nullValue:cells[2].textContent,
+                overflow:document.documentElement.scrollWidth>innerWidth+2};
+            })()`);
+            assert(metrics.minWidth >= 144, JSON.stringify(metrics));
+            assert(metrics.rowHeight < 80, JSON.stringify(metrics));
+            assert(
+              metrics.scrollWidth > metrics.gridWidth,
+              JSON.stringify(metrics),
+            );
+            assert.equal(metrics.tableLayout, "auto");
+            assert(
+              metrics.lastColumnVisible && !metrics.overflow,
+              JSON.stringify(metrics),
+            );
+            assert.equal(metrics.firstValue, "00001234");
+            assert.equal(metrics.nullValue, "NULL");
+          }
+        } finally {
+          win.setContentSize(...originalSize);
+          await setSql(originalSql);
+          await wait(
+            "document.querySelector('.db-grid')?.textContent.includes('9007199254740993')",
+          );
+          await js("document.querySelector('.db-grid').scrollLeft=0");
+        }
+      },
+    );
+    await check(
       "database connection and results survive switching tools",
       async () => {
         const before = await js(
@@ -378,6 +452,126 @@ exports.run = async ({
     await click("查看示例");
     await wait(
       `document.querySelector('.db-grid')?.textContent.includes('DEMO-001')`,
+    );
+    await check(
+      "compact pagination cannot scroll the document below the status bar",
+      async () => {
+        const originalSize = win.getContentSize();
+        const originalTheme = await js(
+          "document.documentElement.dataset.theme",
+        );
+        const originalEditor = await js(
+          "document.querySelector('.db-sql').value",
+        );
+        const divider = "document.querySelector('.pane-divider.axis-y')";
+        const originalHeight = await js(
+          `${divider}.getAttribute('aria-valuenow')`,
+        );
+        const frame = () =>
+          js(
+            "new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))",
+          );
+        try {
+          for (const theme of ["light", "dark"]) {
+            if ((await js("document.documentElement.dataset.theme")) !== theme)
+              await click("切换明暗主题");
+            for (const [width, height] of [
+              [1440, 960],
+              [1280, 720],
+              [980, 640],
+              [820, 680],
+            ]) {
+              win.setContentSize(width, height);
+              for (const key of ["Home", "End"]) {
+                await js(
+                  `${divider}.dispatchEvent(new KeyboardEvent('keydown',{key:${JSON.stringify(key)},bubbles:true}))`,
+                );
+                await frame();
+                for (const end of [false, true]) {
+                  const metrics = await js(`(()=>{
+                    const main=document.querySelector('main'), root=document.scrollingElement;
+                    main.scrollTop=${end ? "main.scrollHeight" : "0"};
+                    root.scrollTop=root.scrollHeight;
+                    const footer=document.querySelector('.statusbar').getBoundingClientRect();
+                    const paging=document.querySelector('.db-explorer .pagination-bar');
+                    const summary=paging.querySelector('.pagination-summary');
+                    const resultFooter=document.querySelector('.db-result-footer').getBoundingClientRect();
+                    const tree=document.querySelector('.db-tree');
+                    tree.scrollTop=tree.scrollHeight;
+                    const last=tree.querySelector('.db-table:last-of-type');
+                    return {viewport:innerHeight,documentHeight:root.scrollHeight,documentTop:root.scrollTop,
+                      statusBottom:footer.bottom,statusTop:footer.top,mainBottom:main.getBoundingClientRect().bottom,
+                      mainScroll:main.scrollTop,mainOverflow:main.scrollHeight-main.clientHeight,
+                      summaryAnchored:summary.offsetParent===paging,summaryText:summary.textContent.trim(),
+                      resultBottom:resultFooter.bottom,resultHeight:resultFooter.height,
+                      tableReachable:!!last && last.getBoundingClientRect().bottom<=tree.getBoundingClientRect().bottom+2,
+                      rows:document.querySelectorAll('.db-grid tbody tr').length};
+                  })()`);
+                  const message = JSON.stringify({
+                    theme,
+                    width,
+                    height,
+                    key,
+                    end,
+                    ...metrics,
+                  });
+                  assert(
+                    metrics.documentHeight <= metrics.viewport + 1,
+                    message,
+                  );
+                  assert.equal(metrics.documentTop, 0, message);
+                  assert(
+                    Math.abs(metrics.statusBottom - metrics.viewport) <= 1,
+                    message,
+                  );
+                  assert(
+                    Math.abs(metrics.mainBottom - metrics.statusTop) <= 1,
+                    message,
+                  );
+                  assert(
+                    metrics.summaryAnchored && metrics.summaryText.length > 0,
+                    message,
+                  );
+                  assert(metrics.tableReachable && metrics.rows === 3, message);
+                  if (end) {
+                    assert(
+                      metrics.resultBottom <= metrics.mainBottom + 1,
+                      message,
+                    );
+                    assert(metrics.resultHeight > 0, message);
+                    assert(
+                      Math.abs(metrics.mainScroll - metrics.mainOverflow) <= 1,
+                      message,
+                    );
+                  }
+                }
+              }
+            }
+          }
+        } finally {
+          win.setContentSize(...originalSize);
+          if (
+            (await js("document.documentElement.dataset.theme")) !==
+            originalTheme
+          )
+            await click("切换明暗主题");
+          await js(
+            `${divider}.dispatchEvent(new KeyboardEvent('keydown',{key:'Home',bubbles:true}))`,
+          );
+          await frame();
+          for (let h = 80; h < Number(originalHeight); h += 16) {
+            await js(
+              `${divider}.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true}))`,
+            );
+            await frame();
+          }
+          await js("document.querySelector('main').scrollTop=0");
+          assert.equal(
+            await js("document.querySelector('.db-sql').value"),
+            originalEditor,
+          );
+        }
+      },
     );
     fs.writeFileSync(
       path.join(dataDir, "database-light.png"),

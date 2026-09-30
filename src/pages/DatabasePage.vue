@@ -23,6 +23,7 @@ import {
 } from "lucide-vue-next";
 import { ref } from "vue";
 import DatabaseDataDialog from "../components/DatabaseDataDialog.vue";
+import DatabaseResultTable from "../components/DatabaseResultTable.vue";
 import PaginationBar from "../components/PaginationBar.vue";
 import PaneDivider from "../components/PaneDivider.vue";
 import AppSelect from "../components/AppSelect.vue";
@@ -505,29 +506,7 @@ const {
           tabindex="0"
           :aria-label="t('数据库结果表格', 'Database result grid')"
         >
-          <table v-if="displayed">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th v-for="(name, i) in displayed.columns" :key="i" scope="col">
-                  {{ name }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, index) in displayed.rows" :key="index">
-                <th scope="row">{{ (displayed.offset || 0) + index + 1 }}</th>
-                <td
-                  v-for="(value, i) in row"
-                  :key="i"
-                  :title="value === null ? 'NULL' : value"
-                >
-                  <span v-if="value === null" class="db-null">NULL</span
-                  ><template v-else>{{ value }}</template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <DatabaseResultTable v-if="displayed" :result="displayed" />
           <div v-else class="empty-state db-grid-empty">
             <Table2 :size="32" :stroke-width="1.3" />
             <h3>
